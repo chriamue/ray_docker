@@ -1,0 +1,21 @@
+version: "3"
+services:
+  server:
+    build:
+      context: ./
+    ports:
+      - "6379:6379"
+    environment:
+      - LC_ALL=C.UTF-8
+      - LANG=C.UTF-8
+    command: bash -c "ray start --head --redis-port=6379 && sleep infinity"
+    shm_size: 4g
+  client:
+    build:
+      context: ./
+    environment:
+      - LC_ALL=C.UTF-8
+      - LANG=C.UTF-8
+    volumes:
+      - ./workspace:/workspace
+    
