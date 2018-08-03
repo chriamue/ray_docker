@@ -5,6 +5,7 @@ services:
       context: ./
     ports:
       - "${REDISPORT}:${REDISPORT}"
+      - "${OBJECTMANAGERPORT}:${OBJECTMANAGERPORT}"
     env_file:
      - .env
     command: bash -c "ray start --head --object-manager-port=${OBJECTMANAGERPORT} --redis-port=${REDISPORT} --num-workers=${WORKERS} && sleep infinity"
@@ -16,6 +17,8 @@ services:
   client:
     build:
       context: ./
+    ports:
+      - "${OBJECTMANAGERPORT}:${OBJECTMANAGERPORT}"
     env_file:
      - .env
     command: bash -c "ray start --object-manager-port=${OBJECTMANAGERPORT} --redis-address=${HOST}:${REDISPORT} --num-workers=${WORKERS} && sleep infinity"
