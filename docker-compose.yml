@@ -10,9 +10,10 @@ services:
      - .env
     command: bash -c "ray start --head --object-manager-port=${OBJECTMANAGERPORT} --redis-port=${REDISPORT} --num-workers=${WORKERS} && sleep infinity"
     shm_size: 4g
-    networks:
-      ray_net:
-        ipv4_address: 172.63.0.2
+    network_mode: "host"
+    #networks:
+    #  ray_net:
+    #    ipv4_address: 172.63.0.2
 
   client:
     build:
@@ -23,9 +24,10 @@ services:
      - .env
     command: bash -c "ray start --object-manager-port=${OBJECTMANAGERPORT} --redis-address=${HOST}:${REDISPORT} --num-workers=${WORKERS} && sleep infinity"
     shm_size: 4g
-    networks:
-      ray_net:
-        ipv4_address: 172.63.0.${IP}
+    network_mode: "host"
+    #networks:
+    #  ray_net:
+    #    ipv4_address: 172.63.0.${IP}
   develop:
     build:
       context: ./
@@ -33,9 +35,10 @@ services:
      - .env
     volumes:
       - ./workspace:/workspace
-    networks:
-      ray_net:
-        ipv4_address: 172.63.0.${IP}
+    network_mode: "host"
+    #networks:
+    #  ray_net:
+    #    ipv4_address: 172.63.0.${IP}
     
 networks:
   ray_net:
