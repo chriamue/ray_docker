@@ -11,6 +11,13 @@ docker-compose up -d server
 ## connect as client
 
 ```bash
-docker-compose run client
-ray start --redis-address=localhost:6379
+docker-compose up -d server
+```
+
+## connect for development
+
+```bash
+docker-compose run develop
+ray start --redis-address=$HOST:$PORT
+python
 ```
