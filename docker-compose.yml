@@ -4,10 +4,10 @@ services:
     build:
       context: ./
     ports:
-      - "${PORT}:${PORT}"
+      - "${REDISPORT}:${REDISPORT}"
     env_file:
      - .env
-    command: bash -c "ray start --head --redis-port=${PORT} && sleep infinity"
+    command: bash -c "ray start --head --object-manager-port=${OBJECTMANAGERPORT} --redis-port=${REDISPORT} --num-workers=${WORKERS} && sleep infinity"
     shm_size: 4g
     networks:
       ray_net:
@@ -18,7 +18,7 @@ services:
       context: ./
     env_file:
      - .env
-    command: bash -c "ray start --redis-address=${HOST}:${PORT} && sleep infinity"
+    command: bash -c "ray start --object-manager-port=${OBJECTMANAGERPORT} --redis-address=${HOST}:${REDISPORT} --num-workers=${WORKERS} && sleep infinity"
     shm_size: 4g
     networks:
       ray_net:
