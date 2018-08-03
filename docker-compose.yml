@@ -4,18 +4,23 @@ services:
     build:
       context: ./
     ports:
-      - "6379:6379"
-    environment:
-      - LC_ALL=C.UTF-8
-      - LANG=C.UTF-8
-    command: bash -c "ray start --head --redis-port=6379 && sleep infinity"
+      - "${PORT}:${PORT}"
+    env_file:
+     - .env
+    command: bash -c "ray start --head --redis-port=${PORT} && sleep infinity"
     shm_size: 4g
   client:
     build:
       context: ./
-    environment:
-      - LC_ALL=C.UTF-8
-      - LANG=C.UTF-8
+    env_file:
+     - .env
+    command: bash -c "ray start --redis-address=${HOST}:${PORT} && sleep infinity"
+    shm_size: 4g
+  develop:
+    build:
+      context: ./
+    env_file:
+     - .env
     volumes:
       - ./workspace:/workspace
     
